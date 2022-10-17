@@ -49,5 +49,10 @@ public class FamilyController {
         return new ResponseEntity<>(siswaaa, HttpStatus.OK);
     }
 
-
+    @RequestMapping(value = "/siswa/{id}", method = RequestMethod.DELETE)
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteSiswa(@PathVariable("id") Long id) {
+        siswaService.deleteSiswa(id);
+        return new ResponseEntity<>("Deleted Success! ", HttpStatus.OK);
+    }
 }

@@ -52,7 +52,7 @@ public class SiswaService {
         return siswaRepository.findById(id).orElse(null);
     }
 
-    public void deleteFamily(Long id) {
+    public void deleteSiswa(Long id) {
         siswaRepository.deleteById(id);
     }
 }
