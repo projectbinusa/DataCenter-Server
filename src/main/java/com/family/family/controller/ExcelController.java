@@ -59,7 +59,7 @@ public class ExcelController {
         .body(file);
   }
 
-  private static final String EXTERNAL_FILE_PATH = "C:\\Users\\user\\Downloads\\contoh-format.xlsx";
+  private static final String EXTERNAL_FILE_PATH = "contoh-format.xlsx";
 
   @GetMapping("/download")
   public void downloadPDFResource(HttpServletRequest request, HttpServletResponse response) throws IOException {
