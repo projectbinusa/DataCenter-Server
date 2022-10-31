@@ -1,5 +1,7 @@
 package com.family.family.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class User {
     private String teleponSekolah;
 
 
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Siswa> siswa;
 

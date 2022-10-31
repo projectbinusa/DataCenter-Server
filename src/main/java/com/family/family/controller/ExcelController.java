@@ -1,5 +1,7 @@
 package com.family.family.controller;
 
+import java.io.*;
+import java.net.URLConnection;
 import java.util.List;
 
 import com.family.family.helper.ExcelHelper;
@@ -13,8 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -53,4 +59,33 @@ public class ExcelController {
         .body(file);
   }
 
+  private static final String EXTERNAL_FILE_PATH = "C:\\Users\\user\\Downloads\\contoh-format.xlsx";
+
+  @GetMapping("/download")
+  public void downloadPDFResource(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    File file = new File(EXTERNAL_FILE_PATH );
+    if (file.exists()) {
+
+      //get the mimetype
+      String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+      if (mimeType == null) {
+        //unknown mimetype so set the mimetype to application/octet-stream
+        mimeType = "application/octet-stream";
+      }
+
+      response.setContentType(mimeType);
+
+      response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+
+      //Here we have mentioned it to show as attachment
+      //response.setHeader("Content-Disposition", String.format("attachment; filename=\"" + file.getName() + "\""));
+
+      response.setContentLength((int) file.length());
+
+      InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+      FileCopyUtils.copy(inputStream, response.getOutputStream());
+
+    }
+  }
 }
