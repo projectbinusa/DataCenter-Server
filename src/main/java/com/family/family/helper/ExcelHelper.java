@@ -86,21 +86,18 @@ public class ExcelHelper {
 
                     switch (cellIdx) {
                         case 0:
-                            siswa.setId((long) currentCell.getNumericCellValue());
-                            break;
-                        case 1:
                             siswa.setNamaSiswa(currentCell.getStringCellValue());
                             break;
-                        case 2:
+                        case 1:
                             siswa.setTanggalLahir(currentCell.getStringCellValue());
                             break;
-                        case 3:
+                        case 2:
                             siswa.setTempatLahir(currentCell.getStringCellValue());
                             break;
-                        case 4:
+                        case 3:
                             siswa.setAgama(currentCell.getStringCellValue());
                             break;
-                        case 5:
+                        case 4:
                             siswa.setGender(currentCell.getStringCellValue());
                             break;
                         default:
