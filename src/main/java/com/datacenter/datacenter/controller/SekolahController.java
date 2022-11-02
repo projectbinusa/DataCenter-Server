@@ -26,7 +26,7 @@ public class SekolahController {
 
     @GetMapping("/user/{userId}/sekolah")
     public ResponseEntity<?> getSekolahByUserId(@PathVariable("userId") Long id) {
-        List<Sekolah> sekolah = sekolahService.getSekolahByUser(id);
+        Sekolah sekolah = sekolahService.getSekolahByUser(id);
         return new ResponseEntity<>(sekolah, HttpStatus.OK);
     }
 

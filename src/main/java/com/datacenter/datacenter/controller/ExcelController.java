@@ -46,7 +46,7 @@ public class ExcelController {
   }
 
   @GetMapping("/download/{id}")
-  public ResponseEntity<Resource> getFile(@PathVariable("id") long id) {
+  public ResponseEntity<Resource> getFile(@PathVariable("id") Long id) {
     String filename = "siswa.xlsx";
     InputStreamResource file = new InputStreamResource(fileService.load(id));
 

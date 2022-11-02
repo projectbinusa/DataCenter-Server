@@ -23,7 +23,7 @@ public class SekolahService {
         return sekolahRepository.findAll();
     }
 
-    public List<Sekolah> getSekolahByUser(Long id) {
+    public Sekolah getSekolahByUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
         return sekolahRepository.findSekolahByUser(user);
     }

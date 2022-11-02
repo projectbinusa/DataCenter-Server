@@ -30,7 +30,7 @@ public class ExcelService {
     }
   }
 
-  public ByteArrayInputStream load(long id) {
+  public ByteArrayInputStream load(Long id) {
     Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
     List<Siswa> siswa = repository.findSiswaBySekolah(sekolah);
     ByteArrayInputStream in = ExcelHelper.siswasToExcel(siswa);
