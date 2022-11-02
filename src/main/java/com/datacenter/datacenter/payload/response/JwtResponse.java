@@ -1,5 +1,7 @@
 package com.datacenter.datacenter.payload.response;
 
+import com.datacenter.datacenter.model.Sekolah;
+
 import java.util.List;
 
 public class JwtResponse {
@@ -8,10 +10,13 @@ public class JwtResponse {
     private Long id;
     private String email;
 
-    public JwtResponse(String accessToken, Long id, String email ) {
+    private Sekolah sekolah;
+
+    public JwtResponse(String accessToken, Long id, String email, Sekolah sekolah) {
         this.token = accessToken;
         this.id = id;
         this.email = email;
+        this.sekolah = sekolah;
     }
 
     public String getToken() {
@@ -44,5 +49,13 @@ public class JwtResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Sekolah getSekolah() {
+        return sekolah;
+    }
+
+    public void setSekolah(Sekolah sekolah) {
+        this.sekolah = sekolah;
     }
 }

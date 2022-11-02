@@ -33,7 +33,7 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest, Long id) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -42,7 +42,8 @@ public class AuthController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
-                userDetails.getEmail()
+                userDetails.getEmail(),
+                userDetails.getSekolah()
         ));
     }
 
@@ -71,8 +72,8 @@ public class AuthController {
         }
         user.setPassword(encoder.encode(user.getPassword()));
 
-        userRepository.save(user);
-        return ResponseEntity.ok(new MessageResponse(" Register telah berhasil!"));
+        User users = userRepository.save(user);
+        return ResponseEntity.ok(users);
     }
 
 }

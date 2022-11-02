@@ -1,5 +1,6 @@
 package com.datacenter.datacenter.service;
 
+import com.datacenter.datacenter.model.Sekolah;
 import com.datacenter.datacenter.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,19 +19,23 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private Sekolah sekolah;
+
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String email, String password) {
+    public UserDetailsImpl(Long id, String email, String password, Sekolah sekolah) {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.sekolah = sekolah;
     }
 
     public static UserDetailsImpl build(User user) {
         return new UserDetailsImpl(
                 user.getId(),
                 user.getEmail(),
-                user.getPassword()
+                user.getPassword(),
+                user.getSekolah()
                 );
     }
 
@@ -56,6 +61,11 @@ public class UserDetailsImpl implements UserDetails {
     public String getEmail() {
         return email;
     }
+
+    public Sekolah getSekolah() {
+        return sekolah;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
