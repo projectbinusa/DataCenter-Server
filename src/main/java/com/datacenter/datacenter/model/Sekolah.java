@@ -27,6 +27,7 @@ public class Sekolah {
     @JoinColumn(name = "user")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "sekolah", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Siswa> siswa;
 

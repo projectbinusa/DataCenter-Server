@@ -25,8 +25,7 @@ public class Siswa {
 
     @Column(name = "gender")
     private String gender;
-
-    @JsonIgnore
+    
     @ManyToOne
     private Sekolah sekolah;
 
