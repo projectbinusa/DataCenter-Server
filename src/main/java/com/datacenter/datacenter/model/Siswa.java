@@ -25,7 +25,7 @@ public class Siswa {
 
     @Column(name = "gender")
     private String gender;
-    
+
     @ManyToOne
     private Sekolah sekolah;
 
