@@ -48,4 +48,10 @@ public class SekolahController {
         return new ResponseEntity<>(sekolah, HttpStatus.OK);
     }
 
+    @DeleteMapping("/sekolah/{sekolahId}")
+    public ResponseEntity<?> deleteSekolah(@PathVariable("sekolahId") Long id) {
+        sekolahService.deleteSekolahById(id);
+        return  new ResponseEntity<>("success deleted!", HttpStatus.OK);
+    }
+
 }

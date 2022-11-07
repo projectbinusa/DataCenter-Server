@@ -46,4 +46,8 @@ public class SekolahService {
         return sekolahRepository.findById(id).orElse(null);
     }
 
+    public void deleteSekolahById(Long id) {
+        sekolahRepository.deleteById(id);
+    }
+
 }
