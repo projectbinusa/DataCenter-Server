@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.time.Year;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +31,7 @@ public class SiswaService {
 
     public Siswa createSiswa(Siswa siswa, Long id) {
         Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
+        siswa.setTahunDaftar(Year.now().getValue());
         siswa.setSekolah(sekolah);
         return siswaRepository.save(siswa);
     }

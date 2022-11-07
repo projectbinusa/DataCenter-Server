@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class ExcelHelper {
             Iterator<Row> rows = sheet.iterator();
 
             List<Siswa> siswas = new ArrayList<Siswa>();
-
+            int tahun = new Date().getYear();
             int rowNumber = 0;
             while (rows.hasNext()) {
                 Row currentRow = rows.next();
@@ -106,6 +107,7 @@ public class ExcelHelper {
                     cellIdx++;
                 }
                 siswa.setSekolah(sekolah);
+                siswa.setTahunDaftar(tahun);
                 siswas.add(siswa);
             }
             workbook.close();

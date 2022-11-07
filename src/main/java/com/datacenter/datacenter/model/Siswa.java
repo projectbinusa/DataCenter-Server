@@ -29,6 +29,8 @@ public class Siswa {
     @ManyToOne
     private Sekolah sekolah;
 
+    private int tahunDaftar;
+
     public Siswa() {
     }
 
@@ -96,5 +98,13 @@ public class Siswa {
 
     public void setSekolah(Sekolah sekolah) {
         this.sekolah = sekolah;
+    }
+
+    public int getTahunDaftar() {
+        return tahunDaftar;
+    }
+
+    public void setTahunDaftar(int tahunDaftar) {
+        this.tahunDaftar = tahunDaftar;
     }
 }
