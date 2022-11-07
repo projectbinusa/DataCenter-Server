@@ -51,4 +51,7 @@ public class SiswaService {
         siswaRepository.deleteById(id);
     }
 
+    public void deleteAllBYIds(List<Long> longs) {
+        siswaRepository.deleteByIdIn(longs);
+    }
 }

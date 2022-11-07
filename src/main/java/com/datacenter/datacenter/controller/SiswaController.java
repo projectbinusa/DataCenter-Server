@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -52,4 +53,9 @@ public class SiswaController {
         return new ResponseEntity<>("success delete!", HttpStatus.OK);
     }
 
+    @DeleteMapping("/siswa")
+    public String delete(@RequestParam("ids") List<Long> ids) {
+        siswaService.deleteAllBYIds(ids);
+        return String.join(",", ids.stream().map(value ->  Long.toString(value)).collect(Collectors.toList()));
+    }
 }
