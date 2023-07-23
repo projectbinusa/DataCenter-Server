@@ -1,6 +1,5 @@
 package com.datacenter.datacenter.service;
 
-import com.datacenter.datacenter.model.Siswa;
 import com.datacenter.datacenter.repository.SekolahRepository;
 import com.datacenter.datacenter.repository.UserRepository;
 import com.datacenter.datacenter.model.Sekolah;

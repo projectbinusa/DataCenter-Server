@@ -1,8 +1,10 @@
 package com.datacenter.datacenter.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "dataSiswa")
@@ -14,8 +16,9 @@ public class Siswa {
     @Column(name = "namaSiswa")
     private String namaSiswa;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "tanggalLahir")
-    private String tanggalLahir;
+    private Date tanggalLahir;
 
     @Column(name = "tempatLahir")
     private String tempatLahir;
@@ -34,7 +37,7 @@ public class Siswa {
     public Siswa() {
     }
 
-    public Siswa(Long id, String namaSiswa, String tanggalLahir, String tempatLahir, String agama, String gender, Sekolah sekolah) {
+    public Siswa(Long id, String namaSiswa, Date tanggalLahir, String tempatLahir, String agama, String gender, Sekolah sekolah) {
         this.id = id;
         this.namaSiswa = namaSiswa;
         this.tanggalLahir = tanggalLahir;
@@ -60,11 +63,11 @@ public class Siswa {
         this.namaSiswa = namaSiswa;
     }
 
-    public String getTanggalLahir() {
+    public Date getTanggalLahir() {
         return tanggalLahir;
     }
 
-    public void setTanggalLahir(String tanggalLahir) {
+    public void setTanggalLahir(Date tanggalLahir) {
         this.tanggalLahir = tanggalLahir;
     }
 

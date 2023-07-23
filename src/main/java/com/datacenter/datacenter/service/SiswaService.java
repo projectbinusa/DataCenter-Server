@@ -36,7 +36,7 @@ public class SiswaService {
         return siswaRepository.save(siswa);
     }
 
-    public Siswa editSiswa(Long id, String namaSiswa, String tanggalLahir, String tempatLahir, String setAgama, String gender) {
+    public Siswa editSiswa(Long id, String namaSiswa, Date tanggalLahir, String tempatLahir, String setAgama, String gender) {
         Siswa siswa = siswaRepository.findById(id).orElse(null);
         siswa.setNamaSiswa(namaSiswa);
         siswa.setTanggalLahir(tanggalLahir);

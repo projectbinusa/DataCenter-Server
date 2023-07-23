@@ -90,7 +90,7 @@ public class ExcelHelper {
                             siswa.setNamaSiswa(currentCell.getStringCellValue());
                             break;
                         case 1:
-                            siswa.setTanggalLahir(currentCell.getStringCellValue());
+                            siswa.setTanggalLahir(currentCell.getDateCellValue());
                             break;
                         case 2:
                             siswa.setTempatLahir(currentCell.getStringCellValue());

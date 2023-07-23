@@ -1,7 +1,6 @@
 package com.datacenter.datacenter.controller;
 
 import com.datacenter.datacenter.model.Sekolah;
-import com.datacenter.datacenter.model.Siswa;
 import com.datacenter.datacenter.service.SekolahService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
