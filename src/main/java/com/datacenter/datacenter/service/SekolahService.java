@@ -1,13 +1,14 @@
 package com.datacenter.datacenter.service;
 
-import com.datacenter.datacenter.repository.SekolahRepository;
-import com.datacenter.datacenter.repository.UserRepository;
 import com.datacenter.datacenter.model.Sekolah;
 import com.datacenter.datacenter.model.User;
+import com.datacenter.datacenter.repository.SekolahRepository;
+import com.datacenter.datacenter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SekolahService {
@@ -33,11 +34,16 @@ public class SekolahService {
         return sekolahRepository.save(sekolah);
     }
 
-    public Sekolah updateSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah) {
+    public Sekolah updateSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah) {
         Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
         sekolah.setNamaSekolah(namaSekolah);
         sekolah.setAlamatSekolah(alamatSekolah);
         sekolah.setTeleponSekolah(teleponSekolah);
+        sekolah.setAkreditasiSekolah(akreditasiSekolah);
+        sekolah.setEmailSekolah(emailSekolah);
+        sekolah.setStatus(status);
+        sekolah.setRuangKelas(ruangKelas);
+        sekolah.setInformasiSekolah(informasiSekolah);
         return sekolahRepository.save(sekolah);
     }
 
@@ -49,4 +55,7 @@ public class SekolahService {
         sekolahRepository.deleteById(id);
     }
 
+    public Sekolah updateSekolah(Sekolah existingSekolah) {
+        return sekolahRepository.save(existingSekolah);
+    }
 }

@@ -7,9 +7,7 @@ import com.datacenter.datacenter.repository.SiswaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.time.Year;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,13 +34,17 @@ public class SiswaService {
         return siswaRepository.save(siswa);
     }
 
-    public Siswa editSiswa(Long id, String namaSiswa, Date tanggalLahir, String tempatLahir, String setAgama, String gender) {
+    public Siswa editSiswa(Long id, String namaMurid,String tempatLahir, String tanggalLahir, String umur, String agama, String gender,String kelas, String namaOrtu, String noTeleponOrtu ) {
         Siswa siswa = siswaRepository.findById(id).orElse(null);
-        siswa.setNamaSiswa(namaSiswa);
-        siswa.setTanggalLahir(tanggalLahir);
+        siswa.setNamaMurid(namaMurid);
         siswa.setTempatLahir(tempatLahir);
-        siswa.setAgama(setAgama);
+        siswa.setTanggalLahir(tanggalLahir);
+        siswa.setUmur(umur);
+        siswa.setAgama(agama);
         siswa.setGender(gender);
+        siswa.setKelas(kelas);
+        siswa.setNamaOrtu(namaOrtu);
+        siswa.setNoTeleponOrtu(noTeleponOrtu);
         return siswaRepository.save(siswa);
     }
 
