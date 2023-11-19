@@ -15,10 +15,9 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
-
 public class ExcelHelper {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = {"id", "namaSiswa", "tanggalLahir", "tempatLahir", "agama", "gender"};
+    static String[] HEADERs = {"id", "namaMurid", "tanggalLahir", "tempatLahir", "umur", "agama", "gender", "kelas", "namaOrtu", "noTeleponOrtu"};
     static String SHEET = "Sheet1";
 
     public static boolean hasExcelFormat(MultipartFile file) {
@@ -44,11 +43,15 @@ public class ExcelHelper {
                 Row row = sheet.createRow(rowIdx++);
 
                 row.createCell(0).setCellValue(siswa.getId());
-                row.createCell(1).setCellValue(siswa.getNamaSiswa());
+                row.createCell(1).setCellValue(siswa.getNamaMurid());
                 row.createCell(2).setCellValue(siswa.getTanggalLahir());
                 row.createCell(3).setCellValue(siswa.getTempatLahir());
-                row.createCell(4).setCellValue(siswa.getAgama());
-                row.createCell(5).setCellValue(siswa.getGender());
+                row.createCell(4).setCellValue(siswa.getUmur());
+                row.createCell(5).setCellValue(siswa.getAgama());
+                row.createCell(6).setCellValue(siswa.getGender());
+                row.createCell(7).setCellValue(siswa.getKelas());
+                row.createCell(8).setCellValue(siswa.getNamaOrtu());
+                row.createCell(9).setCellValue(siswa.getNoTeleponOrtu());
             }
 
             workbook.write(out);
@@ -59,14 +62,13 @@ public class ExcelHelper {
     }
 
     public static List<Siswa> excelToSiswas(InputStream is, Sekolah sekolah) {
-
         try {
             Workbook workbook = new XSSFWorkbook(is);
 
             Sheet sheet = workbook.getSheet(SHEET);
             Iterator<Row> rows = sheet.iterator();
 
-            List<Siswa> siswas = new ArrayList<Siswa>();
+            List<Siswa> siswas = new ArrayList<>();
             int tahun = new Date().getYear();
             int rowNumber = 0;
             while (rows.hasNext()) {
@@ -87,7 +89,7 @@ public class ExcelHelper {
 
                     switch (cellIdx) {
                         case 0:
-                            siswa.setNamaSiswa(currentCell.getStringCellValue());
+                            siswa.setNamaMurid(currentCell.getStringCellValue());
                             break;
                         case 1:
                             siswa.setTanggalLahir(currentCell.getStringCellValue());
@@ -96,10 +98,22 @@ public class ExcelHelper {
                             siswa.setTempatLahir(currentCell.getStringCellValue());
                             break;
                         case 3:
-                            siswa.setAgama(currentCell.getStringCellValue());
+                            siswa.setUmur( currentCell.getStringCellValue());
                             break;
                         case 4:
+                            siswa.setAgama(currentCell.getStringCellValue());
+                            break;
+                        case 5:
                             siswa.setGender(currentCell.getStringCellValue());
+                            break;
+                        case 6:
+                            siswa.setKelas(currentCell.getStringCellValue());
+                            break;
+                        case 7:
+                            siswa.setNamaOrtu(currentCell.getStringCellValue());
+                            break;
+                        case 8:
+                            siswa.setNoTeleponOrtu(currentCell.getStringCellValue());
                             break;
                         default:
                             break;
