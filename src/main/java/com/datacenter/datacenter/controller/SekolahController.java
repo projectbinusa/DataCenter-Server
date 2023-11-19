@@ -37,39 +37,13 @@ public class SekolahController {
     }
 
     @PutMapping("/sekolah/{sekolahId}")
-    public ResponseEntity<?> editSekolah(@PathVariable("sekolahId") Long id, @RequestBody Sekolah updatedSekolah) {
-        // Retrieve the existing Sekolah from the database using the provided id
-        Sekolah existingSekolah = sekolahService.getSekolahById(id);
-
-        if (existingSekolah != null) {
-            // Update the properties of the existing Sekolah with the values from the updated Sekolah
-            existingSekolah.setNamaSekolah(updatedSekolah.getNamaSekolah());
-            existingSekolah.setAlamatSekolah(updatedSekolah.getAlamatSekolah());
-            existingSekolah.setTeleponSekolah(updatedSekolah.getTeleponSekolah());
-            existingSekolah.setAkreditasiSekolah(updatedSekolah.getAkreditasiSekolah());
-            existingSekolah.setEmailSekolah(updatedSekolah.getEmailSekolah());
-            existingSekolah.setStatus(updatedSekolah.getStatus());
-            existingSekolah.setRuangKelas(updatedSekolah.getRuangKelas());
-            existingSekolah.setInformasiSekolah(updatedSekolah.getInformasiSekolah());
-
-            // Save the updated Sekolah back to the database
-            Sekolah updatedSekolahEntity = sekolahService.updateSekolah(existingSekolah);
-
-            return new ResponseEntity<>(updatedSekolahEntity, HttpStatus.OK);
-        } else {
-            // Handle the case where the Sekolah with the given id is not found
-            return new ResponseEntity<>("Sekolah not found with id: " + id, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> editSekolah(@PathVariable("sekolahId") Long id, @RequestBody Sekolah sekolah) {
+        Sekolah sekolahh = sekolahService.updateSekolah(id, sekolah.getNamaSekolah(), sekolah.getAlamatSekolah(), sekolah.getTeleponSekolah());
+        return new ResponseEntity<>(sekolahh, HttpStatus.OK);
     }
 
     @GetMapping("/sekolah/{sekolahId}")
     public ResponseEntity<?> getSekolahById(@PathVariable("sekolahId") Long id) {
-        Sekolah sekolah = sekolahService.getSekolahById(id);
-        return new ResponseEntity<>(sekolah, HttpStatus.OK);
-    }
-
-    @GetMapping("/publik-sekolah/{sekolahId}")
-    public ResponseEntity<?> getSekolahPublikById(@PathVariable("sekolahId") Long id) {
         Sekolah sekolah = sekolahService.getSekolahById(id);
         return new ResponseEntity<>(sekolah, HttpStatus.OK);
     }
@@ -81,4 +55,3 @@ public class SekolahController {
     }
 
 }
-

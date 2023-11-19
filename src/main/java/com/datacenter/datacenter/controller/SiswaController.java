@@ -1,4 +1,3 @@
-
 package com.datacenter.datacenter.controller;
 
 import com.datacenter.datacenter.service.SiswaService;
@@ -38,21 +37,9 @@ public class SiswaController {
 
     @PutMapping("/siswa/{siswaId}")
     public ResponseEntity<?> updateSiswa(@PathVariable("siswaId") Long id, @RequestBody Siswa siswa) {
-        Siswa siswaaa = siswaService.editSiswa(
-                id,
-                siswa.getNamaMurid(),
-                siswa.getTempatLahir(),
-                siswa.getTanggalLahir(),
-                siswa.getUmur(),
-                siswa.getAgama(),
-                siswa.getGender(),
-                siswa.getKelas(),
-                siswa.getNamaOrtu(),
-                siswa.getNoTeleponOrtu()
-                );
+        Siswa siswaaa = siswaService.editSiswa(id, siswa.getNamaSiswa(), siswa.getTanggalLahir(), siswa.getTempatLahir(), siswa.getAgama(), siswa.getGender());
         return new ResponseEntity<>(siswaaa, HttpStatus.OK);
     }
-
 
     @GetMapping("/siswa/{siswaId}")
     public ResponseEntity<?> getById(@PathVariable("siswaId") Long id) {
@@ -67,9 +54,8 @@ public class SiswaController {
     }
 
     @DeleteMapping("/siswa")
-    public ResponseEntity<String> delete(@RequestParam("ids") List<Long> ids) {
+    public String delete(@RequestParam("ids") List<Long> ids) {
         siswaService.deleteAllBYIds(ids);
-        String deletedIds = String.join(",", ids.stream().map(String::valueOf).collect(Collectors.toList()));
-        return new ResponseEntity<>(deletedIds, HttpStatus.OK);
+        return String.join(",", ids.stream().map(value ->  Long.toString(value)).collect(Collectors.toList()));
     }
 }
