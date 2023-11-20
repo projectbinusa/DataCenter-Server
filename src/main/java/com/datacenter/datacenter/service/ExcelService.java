@@ -2,8 +2,11 @@ package com.datacenter.datacenter.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
+import com.datacenter.datacenter.model.Guru;
+import com.datacenter.datacenter.repository.GuruRepository;
 import com.datacenter.datacenter.repository.SiswaRepository;
 import com.datacenter.datacenter.helper.ExcelHelper;
 import com.datacenter.datacenter.model.Sekolah;
@@ -19,6 +22,9 @@ public class ExcelService {
   SiswaRepository repository;
   @Autowired
   SekolahRepository sekolahRepository;
+  @Autowired
+  GuruRepository guruRepository;
+  private Sekolah sekolah;
 
   public void save(MultipartFile file,long id) {
     try {
@@ -29,12 +35,10 @@ public class ExcelService {
       throw new RuntimeException("fail to store excel data: " + e.getMessage());
     }
   }
-
   public ByteArrayInputStream load(Long id) {
     Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
     List<Siswa> siswa = repository.findSiswaBySekolah(sekolah);
     ByteArrayInputStream in = ExcelHelper.siswasToExcel(siswa);
     return in;
   }
-
 }

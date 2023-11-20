@@ -1,5 +1,6 @@
 package com.datacenter.datacenter.repository;
 
+import com.datacenter.datacenter.model.Guru;
 import com.datacenter.datacenter.model.Sekolah;
 import com.datacenter.datacenter.model.Siswa;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface SiswaRepository extends JpaRepository<Siswa, Long> {
     @Transactional
     @Query("delete from Siswa where id in(:longs)")
     void deleteByIdIn(List<Long> longs);
+
+    List<Guru> findGuruBySekolah(Sekolah sekolah);
 }
