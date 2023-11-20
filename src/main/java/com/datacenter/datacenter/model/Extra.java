@@ -1,4 +1,5 @@
 package com.datacenter.datacenter.model;
+import org.springframework.stereotype.Component;
 
 
 import javax.persistence.*;
@@ -16,13 +17,18 @@ public class Extra {
     @Column(name = "status")
     private String status;
 
-    public Extra(){
+    @ManyToOne
+    Sekolah sekolah;
+
+    public Extra() {
+
     }
 
-    public Extra(Long id, String namaExtra, String status) {
+    public Extra(Long id, String namaExtra, String status, Sekolah sekolah) {
         this.id = id;
         this.namaExtra = namaExtra;
         this.status = status;
+        this.sekolah = sekolah;
     }
 
     public Long getId() {
@@ -47,5 +53,13 @@ public class Extra {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Sekolah getSekolah() {
+        return sekolah;
+    }
+
+    public void setSekolah(Sekolah sekolah) {
+        this.sekolah = sekolah;
     }
 }
