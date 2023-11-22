@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
-public class KelasController {
+public class    KelasController {
 
     @Autowired
     KelasService kelasService;

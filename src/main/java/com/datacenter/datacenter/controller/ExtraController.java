@@ -33,10 +33,9 @@ public class ExtraController {
     }
 
     @PostMapping("/extra/{sekolahId}/add-extra")
-    public ResponseEntity<?> addExtra(@RequestBody Kelas kelas, @PathVariable("sekolahId") Long id) {
-        Extra extra = new Extra();
-        extra = extraService.createExtraSekolah(extra, id);
-        return new ResponseEntity<>(extra, HttpStatus.CREATED);
+    public ResponseEntity<?> addExtra(@RequestBody Extra extra, @PathVariable("sekolahId") Long id) {
+     Extra  extraa = extraService.createExtraSekolah(extra, id);
+        return new ResponseEntity<>(extraa, HttpStatus.CREATED);
     }
 
     @PutMapping("/extra/extraId")
