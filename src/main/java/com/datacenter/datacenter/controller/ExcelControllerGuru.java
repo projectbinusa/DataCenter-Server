@@ -54,7 +54,7 @@ public class ExcelControllerGuru {
                 .body(file);
     }
 
-    private static final String EXTERNAL_FILE_PATh = "contoh-format.xlsx";
+    private static final String EXTERNAL_FILE_PATh = "contoh-format-guru.xlsx";
 
     @GetMapping("/download-guru")
     public void downloadguruPDFResource(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -83,5 +83,4 @@ public class ExcelControllerGuru {
 
         }
     }
-
 }
