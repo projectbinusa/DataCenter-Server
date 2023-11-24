@@ -34,7 +34,7 @@ public class SekolahService {
         return sekolahRepository.save(sekolah);
     }
 
-    public Sekolah updateSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah) {
+    public Sekolah updateSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah ,String image) {
         Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
         sekolah.setNamaSekolah(namaSekolah);
         sekolah.setAlamatSekolah(alamatSekolah);
@@ -44,6 +44,7 @@ public class SekolahService {
         sekolah.setStatus(status);
         sekolah.setRuangKelas(ruangKelas);
         sekolah.setInformasiSekolah(informasiSekolah);
+        sekolah.setImage(image);
         return sekolahRepository.save(sekolah);
     }
 

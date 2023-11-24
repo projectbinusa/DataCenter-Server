@@ -2,7 +2,6 @@ package com.datacenter.datacenter.controller;
 
 
 import com.datacenter.datacenter.model.Extra;
-import com.datacenter.datacenter.model.Kelas;
  import com.datacenter.datacenter.service.ExtraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +37,7 @@ public class ExtraController {
         return new ResponseEntity<>(extraa, HttpStatus.CREATED);
     }
 
-    @PutMapping("/extra/extraId")
+    @PutMapping("/extra/{extraId}")
     public ResponseEntity<?> updateExtraSekolah(@PathVariable("extraId") Long id, @RequestBody Extra extra) {
         Extra extraa = extraService.updateExtraSekolah(id, extra.getNamaExtra(), extra.getStatus()  );
         return new ResponseEntity<>(extraa, HttpStatus.OK);
