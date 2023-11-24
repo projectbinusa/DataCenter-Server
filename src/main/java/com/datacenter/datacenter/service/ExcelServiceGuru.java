@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
@@ -29,6 +30,8 @@ public class ExcelServiceGuru {
 
     public void savee(MultipartFile file, long id) {
         try {
+            Sekolah sekolah = sekolahRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("Sekolah not found with id: " + id));
             Guru guru = guruRepository.findById(id).orElse(null);
             List<Guru> gurus = ExcelHelper.excelToGurus(file.getInputStream(), sekolah);
             guruRepository.saveAll(gurus);
