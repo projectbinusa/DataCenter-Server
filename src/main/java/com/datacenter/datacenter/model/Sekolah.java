@@ -37,7 +37,7 @@ public class Sekolah {
     private String informasiSekolah;
 
     @Column(name = "image")
-    private String image;
+    private byte[] image;
 
     @JsonIgnore
     @OneToOne
@@ -50,7 +50,9 @@ public class Sekolah {
     private List<Siswa> siswa;
 
 
-    public Sekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah, String emailSekolah, String akreditasiSekolah, Integer ruangKelas, String status,String informasiSekolah,String image, User user, List<Siswa> siswa) {
+
+
+    public Sekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah, String emailSekolah, String akreditasiSekolah, Integer ruangKelas, String status, String informasiSekolah, byte[] image, User user, List<Siswa> siswa) {
         this.id = id;
         this.namaSekolah = namaSekolah;
         this.alamatSekolah = alamatSekolah;
@@ -63,6 +65,7 @@ public class Sekolah {
         this.user = user;
         this.siswa = siswa;
         this.image = image;
+
 
     }
     public Sekolah() {
@@ -156,11 +159,11 @@ public class Sekolah {
         this.informasiSekolah = informasiSekolah;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 }

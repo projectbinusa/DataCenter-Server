@@ -34,7 +34,7 @@ public class SekolahService {
         return sekolahRepository.save(sekolah);
     }
 
-    public Sekolah updateSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah ,String image) {
+    public Sekolah editSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah ,byte [] image) {
         Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
         sekolah.setNamaSekolah(namaSekolah);
         sekolah.setAlamatSekolah(alamatSekolah);

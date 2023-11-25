@@ -5,8 +5,10 @@ import com.datacenter.datacenter.model.Siswa;
 import com.datacenter.datacenter.service.SekolahService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -36,30 +38,40 @@ public class SekolahController {
         return new ResponseEntity<>(sekolahh, HttpStatus.CREATED);
     }
 
-    @PutMapping("/sekolah/{sekolahId}")
-    public ResponseEntity<?> editSekolah(@PathVariable("sekolahId") Long id, @RequestBody Sekolah updatedSekolah) {
-        // Retrieve the existing Sekolah from the database using the provided id
-        Sekolah existingSekolah = sekolahService.getSekolahById(id);
+    @PutMapping(value = "/sekolah/{sekolahId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> editSekolah(@PathVariable("sekolahId") Long id, @RequestParam("file") MultipartFile file, @RequestPart("updatedSekolah") Sekolah updatedSekolah) {
+        try {
+            // Retrieve the existing Sekolah from the database using the provided id
+            Sekolah existingSekolah = sekolahService.getSekolahById(id);
 
-        if (existingSekolah != null) {
-            // Update the properties of the existing Sekolah with the values from the updated Sekolah
-            existingSekolah.setNamaSekolah(updatedSekolah.getNamaSekolah());
-            existingSekolah.setAlamatSekolah(updatedSekolah.getAlamatSekolah());
-            existingSekolah.setTeleponSekolah(updatedSekolah.getTeleponSekolah());
-            existingSekolah.setAkreditasiSekolah(updatedSekolah.getAkreditasiSekolah());
-            existingSekolah.setEmailSekolah(updatedSekolah.getEmailSekolah());
-            existingSekolah.setStatus(updatedSekolah.getStatus());
-            existingSekolah.setRuangKelas(updatedSekolah.getRuangKelas());
-            existingSekolah.setInformasiSekolah(updatedSekolah.getInformasiSekolah());
-            existingSekolah.setImage(updatedSekolah.getImage());
+            if (existingSekolah != null) {
+                // Update the properties of the existing Sekolah with the values from the updated Sekolah
+                existingSekolah.setNamaSekolah(updatedSekolah.getNamaSekolah());
+                existingSekolah.setAlamatSekolah(updatedSekolah.getAlamatSekolah());
+                existingSekolah.setTeleponSekolah(updatedSekolah.getTeleponSekolah());
+                existingSekolah.setAkreditasiSekolah(updatedSekolah.getAkreditasiSekolah());
+                existingSekolah.setEmailSekolah(updatedSekolah.getEmailSekolah());
+                existingSekolah.setStatus(updatedSekolah.getStatus());
+                existingSekolah.setRuangKelas(updatedSekolah.getRuangKelas());
+                existingSekolah.setInformasiSekolah(updatedSekolah.getInformasiSekolah());
 
-            // Save the updated Sekolah back to the database
-            Sekolah updatedSekolahEntity = sekolahService.updateSekolah(existingSekolah);
+                // Update the image only if a new file is provided
+                if (file != null && !file.isEmpty()) {
+                    existingSekolah.setImage(file.getBytes());
+                }
 
-            return new ResponseEntity<>(updatedSekolahEntity, HttpStatus.OK);
-        } else {
-            // Handle the case where the Sekolah with the given id is not found
-            return new ResponseEntity<>("Sekolah not found with id: " + id, HttpStatus.NOT_FOUND);
+                // Save the updated Sekolah back to the database
+                Sekolah updatedSekolahEntity = sekolahService.updateSekolah(existingSekolah);
+
+                return new ResponseEntity<>(updatedSekolahEntity, HttpStatus.OK);
+            } else {
+                // Handle the case where the Sekolah with the given id is not found
+                return new ResponseEntity<>("Sekolah not found with id: " + id, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // Handle exceptions, log them, and return an error response
+            e.printStackTrace(); // Log the exception properly in your actual application
+            return new ResponseEntity<>("Error processing the request", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
