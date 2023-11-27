@@ -14,6 +14,9 @@ public class Siswa {
     @Column(name = "namaMurid")
     private String namaMurid;
 
+    @Column(name = "extrakulikuler")
+    private String extrakulikuler;
+
     @Column(name = "tanggalLahir")
     private String tanggalLahir;
 
@@ -43,6 +46,14 @@ public class Siswa {
 
     public void setNamaMurid(String namaMurid) {
         this.namaMurid = namaMurid;
+    }
+
+    public String getExtrakulikuler() {
+        return extrakulikuler;
+    }
+
+    public void setExtrakulikuler(String extrakulikuler) {
+        this.extrakulikuler = extrakulikuler;
     }
 
     public String getTanggalLahir() {
@@ -126,11 +137,12 @@ public class Siswa {
     public Siswa() {
     }
 
-    public Siswa(Long id, String namaMurid, String tanggalLahir, String tempatLahir, String umur,
+    public Siswa(Long id, String namaMurid, String extrakulikuler, String tanggalLahir, String tempatLahir, String umur,
                  String gender, String agama,
                  String kelas, String namaOrtu, String noTeleponOrtu,  Sekolah sekolah) {
         this.id = id;
         this.namaMurid = namaMurid;
+        this.extrakulikuler= extrakulikuler;
         this.tanggalLahir = tanggalLahir;
         this.tempatLahir = tempatLahir;
         this.umur = umur;

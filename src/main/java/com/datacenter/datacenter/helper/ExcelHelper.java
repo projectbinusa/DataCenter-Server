@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ExcelHelper {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = {"id", "namaMurid", "tanggalLahir", "tempatLahir", "umur", "agama", "gender", "kelas", "namaOrtu", "noTeleponOrtu"};
+    static String[] HEADERs = {"id", "namaMurid", "extrakulikuler", "tanggalLahir", "tempatLahir", "umur", "agama", "gender", "kelas", "namaOrtu", "noTeleponOrtu"};
     static String SHEET = "Sheet1";
 
     static String[] HEADERS = {"id", "namaGuru", "tanggalLahir", "tempatLahir", "umur", "agama", "gender", "noTelepon", "gelarPendidikan", "statusKawin"};
@@ -55,6 +55,7 @@ public class ExcelHelper {
 
                 row.createCell(0).setCellValue(siswa.getId());
                 row.createCell(1).setCellValue(siswa.getNamaMurid());
+                row.createCell(1).setCellValue(siswa.getExtrakulikuler());
                 row.createCell(2).setCellValue(siswa.getTanggalLahir());
                 row.createCell(3).setCellValue(siswa.getTempatLahir());
                 row.createCell(4).setCellValue(siswa.getUmur());
@@ -103,27 +104,30 @@ public class ExcelHelper {
                             siswa.setNamaMurid(currentCell.getStringCellValue());
                             break;
                         case 1:
-                            siswa.setTanggalLahir(currentCell.getStringCellValue());
+                            siswa.setExtrakulikuler(currentCell.getStringCellValue());
                             break;
                         case 2:
-                            siswa.setTempatLahir(currentCell.getStringCellValue());
+                            siswa.setTanggalLahir(currentCell.getStringCellValue());
                             break;
                         case 3:
-                            siswa.setUmur( currentCell.getStringCellValue());
+                            siswa.setTempatLahir(currentCell.getStringCellValue());
                             break;
                         case 4:
-                            siswa.setAgama(currentCell.getStringCellValue());
+                            siswa.setUmur( currentCell.getStringCellValue());
                             break;
                         case 5:
-                            siswa.setGender(currentCell.getStringCellValue());
+                            siswa.setAgama(currentCell.getStringCellValue());
                             break;
                         case 6:
-                            siswa.setKelas(currentCell.getStringCellValue());
+                            siswa.setGender(currentCell.getStringCellValue());
                             break;
                         case 7:
-                            siswa.setNamaOrtu(currentCell.getStringCellValue());
+                            siswa.setKelas(currentCell.getStringCellValue());
                             break;
                         case 8:
+                            siswa.setNamaOrtu(currentCell.getStringCellValue());
+                            break;
+                        case 9:
                             siswa.setNoTeleponOrtu(currentCell.getStringCellValue());
                             break;
                         default:

@@ -41,6 +41,7 @@ public class SiswaController {
         Siswa siswaaa = siswaService.editSiswa(
                 id,
                 siswa.getNamaMurid(),
+                siswa.getExtrakulikuler(),
                 siswa.getTempatLahir(),
                 siswa.getTanggalLahir(),
                 siswa.getUmur(),
