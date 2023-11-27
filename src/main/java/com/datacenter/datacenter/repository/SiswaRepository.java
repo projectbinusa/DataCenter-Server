@@ -17,5 +17,4 @@ public interface SiswaRepository extends JpaRepository<Siswa, Long> {
     @Query("delete from Siswa where id in(:longs)")
     void deleteByIdIn(List<Long> longs);
 
-    List<Guru> findGuruBySekolah(Sekolah sekolah);
-}
+ }
