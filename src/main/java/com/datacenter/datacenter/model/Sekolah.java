@@ -35,6 +35,8 @@ public class Sekolah {
 
     @Column(name = "informasiSekolah")
     private String informasiSekolah;
+    @Column(name = "visiMisi")
+    private String visiMisi;
 
     @Column(name = "image")
     private String image;
@@ -51,8 +53,7 @@ public class Sekolah {
 
 
 
-
-    public Sekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah, String emailSekolah, String akreditasiSekolah, Integer ruangKelas, String status, String informasiSekolah, String image, User user, List<Siswa> siswa) {
+    public Sekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah, String emailSekolah, String akreditasiSekolah, Integer ruangKelas, String status, String informasiSekolah,String visiMisi, String image, User user, List<Siswa> siswa) {
         this.id = id;
         this.namaSekolah = namaSekolah;
         this.alamatSekolah = alamatSekolah;
@@ -65,6 +66,7 @@ public class Sekolah {
         this.user = user;
         this.siswa = siswa;
         this.image = image;
+        this.visiMisi = visiMisi;
 
 
     }
@@ -165,5 +167,13 @@ public class Sekolah {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getVisiMisi() {
+        return visiMisi;
+    }
+
+    public void setVisiMisi(String visiMisi) {
+        this.visiMisi = visiMisi;
     }
 }

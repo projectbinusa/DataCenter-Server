@@ -5,7 +5,19 @@ import com.datacenter.datacenter.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 @Repository
 public interface SekolahRepository extends JpaRepository<Sekolah, Long> {
     Sekolah findSekolahByUser(User user);
+//    public default void saveImage(String fileName, byte[] image) throws IOException {
+//        File file = new File("upload/" + fileName);
+//        file.createNewFile();
+//        FileOutputStream fos = new FileOutputStream(file);
+//        fos.write(image);
+//        fos.close();
+//    }
 }
+
