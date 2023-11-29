@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +39,17 @@ public class SekolahService {
         sekolah.setUser(user);
         return sekolahRepository.save(sekolah);
     }
+    public Sekolah uploadImage(Long id, String image) {
+        Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
+        if (sekolah == null) {
+            throw new EntityNotFoundException("Sekolah tidak ditemukan");
+        }
 
-    public Sekolah editSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah ) {
+        sekolah.setImage("upload/" + image);
+        return sekolahRepository.save(sekolah);
+    }
+
+    public Sekolah editSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah ,String visiMisi) {
         Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
         sekolah.setNamaSekolah(namaSekolah);
         sekolah.setAlamatSekolah(alamatSekolah);
@@ -49,6 +59,7 @@ public class SekolahService {
         sekolah.setStatus(status);
         sekolah.setRuangKelas(ruangKelas);
         sekolah.setInformasiSekolah(informasiSekolah);
+        sekolah.setVisiMisi(visiMisi);
         return sekolahRepository.save(sekolah);
     }
 
