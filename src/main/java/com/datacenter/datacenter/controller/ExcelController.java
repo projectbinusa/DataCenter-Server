@@ -28,25 +28,23 @@ public class ExcelController {
   @Autowired
   ExcelService fileService;
 
-
-  @PostMapping("/upload/user/{id}")
-  public ResponseEntity<?> uploadFile(@PathVariable("id") long id , @RequestParam("file") MultipartFile file) {
-    String message = "";
-    if (ExcelHelper.hasExcelFormat(file)) {
-      try {
-        fileService.save(file,id);
-        message = "Uploaded the file successfully: " + file.getOriginalFilename();
-        return ResponseEntity.status(HttpStatus.OK).body(message);
-      } catch (Exception e) {
-        System.out.println(e);
-        message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
-      }
+@PostMapping("/upload/user/{id}")
+public ResponseEntity<?> uploadFile(@PathVariable("id") long id , @RequestParam("file") MultipartFile file) {
+  String message = "";
+  if (ExcelHelper.hasExcelFormat(file)) {
+    try {
+      fileService.save(file,id);
+      message = "Uploaded the file successfully: " + file.getOriginalFilename();
+      return ResponseEntity.status(HttpStatus.OK).body(message);
+    } catch (Exception e) {
+      System.out.println(e);
+      message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
     }
-    message = "Please upload an excel file!";
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
   }
-
+  message = "Please upload an excel file!";
+  return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+}
   @GetMapping("/download/{id}")
   public ResponseEntity<Resource> getFile(@PathVariable("id") Long id) {
     String filename = "siswa.xlsx";
