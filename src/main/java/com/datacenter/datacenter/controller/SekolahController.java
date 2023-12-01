@@ -85,7 +85,8 @@ public class SekolahController {
             existingSekolah.setStatus(updatedSekolah.getStatus());
             existingSekolah.setRuangKelas(updatedSekolah.getRuangKelas());
             existingSekolah.setInformasiSekolah(updatedSekolah.getInformasiSekolah());
-            existingSekolah.setVisiMisi(updatedSekolah.getVisiMisi());
+            existingSekolah.setVisi(updatedSekolah.getVisi());
+            existingSekolah.setMisi(updatedSekolah.getMisi());
 
             // Save the updated Sekolah back to the database
             Sekolah updatedSekolahEntity = sekolahService.updateSekolah(existingSekolah);

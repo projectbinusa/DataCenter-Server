@@ -115,7 +115,7 @@ public class SekolahService {
     }
 
 
-    public Sekolah editSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah ,String visiMisi) {
+    public Sekolah editSekolah(Long id, String namaSekolah, String alamatSekolah, String teleponSekolah,String akreditasiSekolah,String emailSekolah , String status, Integer ruangKelas ,String informasiSekolah ,String visi , String misi) {
         Sekolah sekolah = sekolahRepository.findById(id).orElse(null);
         sekolah.setNamaSekolah(namaSekolah);
         sekolah.setAlamatSekolah(alamatSekolah);
@@ -125,7 +125,8 @@ public class SekolahService {
         sekolah.setStatus(status);
         sekolah.setRuangKelas(ruangKelas);
         sekolah.setInformasiSekolah(informasiSekolah);
-        sekolah.setVisiMisi(visiMisi);
+        sekolah.setMisi(misi);
+        sekolah.setVisi(visi);
         return sekolahRepository.save(sekolah);
     }
 
