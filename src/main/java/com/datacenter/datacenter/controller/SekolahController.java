@@ -1,5 +1,6 @@
 package com.datacenter.datacenter.controller;
 
+import com.datacenter.datacenter.exception.ResourceNotFoundException;
 import com.datacenter.datacenter.model.Sekolah;
 import com.datacenter.datacenter.repository.SekolahRepository;
 import com.datacenter.datacenter.service.SekolahService;
@@ -7,18 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
-import java.util.UUID;
+
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class SekolahController {
+    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/datacenter-a00ad.appspot.com/o/%s?alt=media";
 
     @Autowired
     SekolahService sekolahService;
@@ -30,44 +30,48 @@ public class SekolahController {
         List<Sekolah> sekolah = sekolahService.getAllSekolah();
         return new ResponseEntity<>(sekolah, HttpStatus.OK);
     }
-
     @GetMapping("/user/{userId}/sekolah")
     public ResponseEntity<?> getSekolahByUserId(@PathVariable("userId") Long id) {
         Sekolah sekolah = sekolahService.getSekolahByUser(id);
         return new ResponseEntity<>(sekolah, HttpStatus.OK);
     }
 
+
     @PostMapping("/user/{userId}/add-sekolah")
     public ResponseEntity<?> addSekolah(@RequestBody Sekolah sekolah, @PathVariable("userId") Long id) {
         Sekolah sekolahh = sekolahService.createSekolah(sekolah, id);
         return new ResponseEntity<>(sekolahh, HttpStatus.CREATED);
     }
-    public void saveImage(String fileName, byte[] image) throws IOException {
-        File file = new File("upload/" + fileName);
-        file.createNewFile();
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.write(image);
-        fos.close();
-    }
-    @PostMapping("/sekolah/{sekolahId}/upload-image")
-    public ResponseEntity<?> uploadImage(@PathVariable("sekolahId") Long id, @RequestBody String image) throws IOException {
+    @PutMapping("/sekolah/{sekolahId}/upload-image")
+    public ResponseEntity<?> uploadImage(@PathVariable("sekolahId") Long id, @RequestBody MultipartFile image) throws IOException {
         if (id == null || id <= 0) {
             return new ResponseEntity<>("ID sekolah tidak valid", HttpStatus.BAD_REQUEST);
         }
-
-        byte[] decodedImage = Base64.getDecoder().decode(image.split(",")[1]); // Extract Base64 data
-        String fileName = UUID.randomUUID().toString() + "." + image.split("/")[1].split(":")[1].split(";")[0]; // Get file extension
-   saveImage(fileName, decodedImage); // Save decoded image
-
-        Sekolah sekolah = sekolahService.uploadImage(id, fileName);
-
+        File file = sekolahService.convertToFile(image, getExtentions(image.getOriginalFilename()));
+        String downloadURL = sekolahService.uploadFile(file, getExtentions(image.getOriginalFilename()));
+        file.delete();
+        Sekolah sekolah = sekolahService.getSekolahById(id);
+        sekolah.setImage(downloadURL);
+        sekolahService.updateSekolah(sekolah);
         return ResponseEntity.ok(sekolah);
+    }
+
+    public String getExtentions(String fileName) {
+        return fileName.split("\\.")[0];
     }
 
 
 
-    @PutMapping("/sekolah/{sekolahId}")
-    public ResponseEntity<?> editSekolah(@PathVariable("sekolahId") Long id, @RequestBody Sekolah updatedSekolah) {
+    @GetMapping("/sekolah/{sekolahId}/image")
+    public ResponseEntity<String> getImage(@PathVariable Long sekolahId) {
+        Sekolah sekolah = sekolahRepository.findById(sekolahId).orElseThrow(() -> new ResourceNotFoundException("Sekolah tidak ditemukan"));
+
+        return ResponseEntity.ok(sekolah.getImage());
+    }
+
+
+        @PutMapping("/sekolah/{sekolahId}")
+        public ResponseEntity<?> editSekolah(@PathVariable("sekolahId") Long id, @RequestBody Sekolah updatedSekolah) {
         // Retrieve the existing Sekolah from the database using the provided id
         Sekolah existingSekolah = sekolahService.getSekolahById(id);
 

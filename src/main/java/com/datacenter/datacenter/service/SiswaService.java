@@ -36,6 +36,7 @@ public class SiswaService {
 
     public Siswa editSiswa(Long id, String namaMurid, String extrakulikuler, String tempatLahir, String tanggalLahir, String umur, String agama, String gender,String kelas, String namaOrtu, String noTeleponOrtu ) {
         Siswa siswa = siswaRepository.findById(id).orElse(null);
+        assert siswa != null;
         siswa.setNamaMurid(namaMurid);
         siswa.setExtrakulikuler(extrakulikuler);
         siswa.setTempatLahir(tempatLahir);
