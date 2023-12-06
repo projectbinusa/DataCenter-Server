@@ -1,12 +1,18 @@
 package com.datacenter.datacenter.controller;
 
+import com.datacenter.datacenter.exception.ResourceNotFoundException;
 import com.datacenter.datacenter.model.Guru;
+import com.datacenter.datacenter.model.Sekolah;
+import com.datacenter.datacenter.repository.GuruRepository;
 import com.datacenter.datacenter.service.GuruService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,9 +22,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 
 public class GuruController {
+    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/datacenter-a00ad.appspot.com/o/%s?alt=media";
 
     @Autowired
     GuruService guruService;
+
+    @Autowired
+    GuruRepository guruRepository;
 
     @RequestMapping(value = "/guru", method = RequestMethod.GET)
     public ResponseEntity<?> getAll() {
@@ -36,6 +46,31 @@ public class GuruController {
     public ResponseEntity<?> addGuru(@RequestBody Guru guru, @PathVariable("sekolahId") Long id) {
         Guru guruu = guruService.createGuru(guru, id);
         return new ResponseEntity<>(guruu, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/guru/{guruId}/upload-image")
+    public ResponseEntity<?> uploadImageForGuru(@PathVariable("guruId") Long id, @RequestBody MultipartFile image) throws IOException {
+        if (id == null || id <= 0) {
+            return new ResponseEntity<>("ID guru tidak valid", HttpStatus.BAD_REQUEST);
+        }
+        File file = guruService.convertToFilee(image, getExtentionss(image.getOriginalFilename()));
+        String downloadURL = guruService.uploadFilee(file, getExtentionss(image.getOriginalFilename()));
+        file.delete();
+        Guru guru = guruService.getById(id);
+        guru.setImage(downloadURL);
+        guruService.updateGuru(guru);
+        return ResponseEntity.ok(guru);
+    }
+
+    public String getExtentionss(String fileName) {
+        return fileName.split("\\.")[0];
+    }
+
+    @GetMapping("/guru/{guruId}/image")
+    public ResponseEntity<String> getImage(@PathVariable Long guruId) {
+        Guru guru = guruRepository.findById(guruId).orElseThrow(() -> new ResourceNotFoundException("Guru tidak ditemukan"));
+
+        return ResponseEntity.ok(guru.getImage());
     }
 
     @PutMapping("/guru/{guruId}")

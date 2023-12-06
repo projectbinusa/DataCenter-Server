@@ -37,13 +37,16 @@ public class Guru {
     @Column(name = "statusKawin")
     private String statusKawin;
 
+    @Column(name = "image")
+    private String image;
+
     @ManyToOne
     private Sekolah sekolah;
 
     public Guru() {
     }
 
-    public Guru(Long id, String namaGuru, String tanggalLahir, String tempatLahir, String agama, String gender, String noTelepon, String gelarPendidikan, String statusKawin,String umur,Sekolah sekolah) {
+    public Guru(Long id, String namaGuru, String tanggalLahir, String tempatLahir, String agama, String gender, String noTelepon, String gelarPendidikan, String statusKawin,String umur, String image,Sekolah sekolah) {
         this.id = id;
         this.namaGuru = namaGuru;
         this.tanggalLahir = tanggalLahir;
@@ -55,6 +58,8 @@ public class Guru {
         this.statusKawin = statusKawin;
         this.sekolah = sekolah;
         this.umur = umur;
+        this.image = image;
+
     }
 
     public Long getId() {
@@ -142,6 +147,14 @@ public class Guru {
 
     public void setSekolah(Sekolah sekolah) {
         this.sekolah = sekolah;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
 
