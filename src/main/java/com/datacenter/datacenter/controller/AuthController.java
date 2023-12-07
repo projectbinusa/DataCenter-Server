@@ -32,6 +32,7 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -47,6 +48,22 @@ public class AuthController {
                 userDetails.getSekolah()
         ));
     }
+
+    public static class EmailValidator {
+
+        public static boolean isEmailActive(String email) {
+            // Implement logic to check email activity
+            // You can use external APIs or custom logic
+            return true; // Replace with actual implementation
+        }
+
+        public static boolean isEmailOfficialFromGoogle(String email) {
+            // Implement logic to check if email belongs to Google domain
+            // You can use regular expressions or DNS queries
+            return true; // Replace with actual implementation
+        }
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
