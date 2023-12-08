@@ -12,9 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -33,38 +36,58 @@ public class AuthController {
     JwtUtils jwtUtils;
 
 
+
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws AuthenticationException {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
 
+        // Check user status
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getEmail(),
-                userDetails.getRole(),
-                userDetails.getSekolah()
-        ));
+
+      if (userDetails.getRole().equals("admin")) {
+            // Admin Validation
+            if (!userDetails.getStatus().equals("Diterima")) {
+                return ResponseEntity.badRequest()
+                        .body(new MessageResponse("Akun Anda belum disetujui. Silakan hubungi administrator untuk persetujuan."));
+            }
+
+            // Proceed with normal login flow
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getEmail(),
+                    userDetails.getRole(),
+                    userDetails.getSekolah()
+            ));
+        } else if (userDetails.getRole().equals("super admin")) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+
+            return ResponseEntity.ok(new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getEmail(),
+                    userDetails.getRole(),
+                    userDetails.getSekolah()
+            ));
+        }  else {
+            // Return error message for other roles
+            return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Role tidak ditemukan"));
+        }
     }
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = userRepository.findAll();
 
-    public static class EmailValidator {
-
-        public static boolean isEmailActive(String email) {
-            // Implement logic to check email activity
-            // You can use external APIs or custom logic
-            return true; // Replace with actual implementation
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
 
-        public static boolean isEmailOfficialFromGoogle(String email) {
-            // Implement logic to check if email belongs to Google domain
-            // You can use regular expressions or DNS queries
-            return true; // Replace with actual implementation
-        }
+        return ResponseEntity.ok(users);
     }
-
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
 

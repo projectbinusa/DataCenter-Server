@@ -18,6 +18,9 @@ public class User {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "status")
+    private String status;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     @PrimaryKeyJoinColumn
     private Sekolah sekolah;
@@ -60,5 +63,13 @@ public class User {
 
     public void setSekolah(Sekolah sekolah) {
         this.sekolah = sekolah;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

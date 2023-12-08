@@ -17,7 +17,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
-public class SekolahController {
+public class    SekolahController {
     private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/datacenter-a00ad.appspot.com/o/%s?alt=media";
 
     @Autowired
@@ -97,7 +97,11 @@ public class SekolahController {
             return new ResponseEntity<>("Sekolah not found with id: " + id, HttpStatus.NOT_FOUND);
         }
     }
-
+    @GetMapping("/nama-sekolah/{sekolahId}")
+    public String getSekolahByname(@PathVariable("sekolahId") Long id) {
+        Sekolah sekolah = sekolahService.getSekolahById(id);
+        return sekolah.getNamaSekolah();
+    }
     @GetMapping("/sekolah/{sekolahId}")
     public ResponseEntity<?> getSekolahById(@PathVariable("sekolahId") Long id) {
         Sekolah sekolah = sekolahService.getSekolahById(id);
