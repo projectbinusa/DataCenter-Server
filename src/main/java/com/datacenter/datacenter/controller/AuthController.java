@@ -1,9 +1,11 @@
 package com.datacenter.datacenter.controller;
 
+import com.datacenter.datacenter.exception.ResourceNotFoundException;
 import com.datacenter.datacenter.model.User;
 import com.datacenter.datacenter.payload.request.LoginRequest;
 import com.datacenter.datacenter.payload.response.JwtResponse;
 import com.datacenter.datacenter.payload.response.MessageResponse;
+import com.datacenter.datacenter.repository.SekolahRepository;
 import com.datacenter.datacenter.repository.UserRepository;
 import com.datacenter.datacenter.security.jwt.JwtUtils;
 import com.datacenter.datacenter.service.UserDetailsImpl;
@@ -28,6 +30,9 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SekolahRepository sekolahRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -78,6 +83,38 @@ public class AuthController {
                     .body(new MessageResponse("Role tidak ditemukan"));
         }
     }
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        // Get the user by ID
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
+
+        // Delete the user
+        userRepository.delete(user);
+
+        // Delete the user's school data
+        sekolahRepository.deleteByUserId(id);
+
+        // Return a success response
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/users/status/terima/{id}")
+    public ResponseEntity<?> updateStatusById(@PathVariable Long id) {
+        // Mencari user dengan id yang diberikan
+        User existingUser = userRepository.findById(id).get();
+        // Mengubah status user menjadi "diterima"
+        existingUser.setStatus("Diterima");
+        // Menyimpan perubahan
+        userRepository.save(existingUser);
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/users/status/non-aktif/{id}")
+    public ResponseEntity<?> updateStatusNullById(@PathVariable Long id) {
+        User existingUser = userRepository.findById(id).get();
+        existingUser.setStatus(null);
+        userRepository.save(existingUser);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
         List<User> users = userRepository.findAll();
