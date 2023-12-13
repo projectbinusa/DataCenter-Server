@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -97,34 +98,44 @@ public class AuthController {
         // Return a success response
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/users/status/terima/{id}")
-    public ResponseEntity<?> updateStatusById(@PathVariable Long id) {
-        // Mencari user dengan id yang diberikan
-        User existingUser = userRepository.findById(id).get();
-        // Mengubah status user menjadi "diterima"
-        existingUser.setStatus("Diterima");
-        // Menyimpan perubahan
-        userRepository.save(existingUser);
-        return ResponseEntity.ok().build();
-    }
-    @PostMapping("/users/status/non-aktif/{id}")
-    public ResponseEntity<?> updateStatusNullById(@PathVariable Long id) {
-        User existingUser = userRepository.findById(id).get();
-        existingUser.setStatus(null);
-        userRepository.save(existingUser);
-        return ResponseEntity.ok().build();
+
+
+
+    @PutMapping("/users/status/terima/{id}")
+    public ResponseEntity<?> updateStatusTerimaById(@PathVariable Long id) {
+
+        return updateStatus(id, "Diterima");
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<?> getAllUsers() {
-        List<User> users = userRepository.findAll();
+    @PutMapping("/users/status/non-aktif/{id}")
+    public ResponseEntity<?> updateStatusNonAktifById(@PathVariable Long id) {
+        return updateStatus(id, null);
+    }
 
-        if (users.isEmpty()) {
-            return ResponseEntity.noContent().build();
+    private ResponseEntity<?> updateStatus(Long id, Object status) {
+        User existingUser = userRepository.findById(id).get();
+
+        if (status == null) {
+            existingUser.setStatus(null);
+        } else if (status instanceof String) {
+            existingUser.setStatus((String) status);
+        } else if (status instanceof Optional) {
+            existingUser.setStatus(((Optional<String>) status).orElse(null));
+        } else {
+            // Handle unsupported status types
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid status type."));
         }
 
+        userRepository.save(existingUser);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = userRepository.findAllByRole("admin");
         return ResponseEntity.ok(users);
     }
+
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
 

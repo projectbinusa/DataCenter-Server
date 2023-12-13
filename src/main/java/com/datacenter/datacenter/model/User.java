@@ -21,6 +21,8 @@ public class User {
     @Column(name = "status")
     private String status;
 
+    private String namaSekolah;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
     @PrimaryKeyJoinColumn
     private Sekolah sekolah;
@@ -71,5 +73,13 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getNamaSekolah() {
+        return namaSekolah;
+    }
+
+    public void setNamaSekolah(String namaSekolah) {
+        this.namaSekolah = namaSekolah;
     }
 }
