@@ -20,6 +20,9 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
 
     private String role;
+
+    private String namaSekolah;
+
     private String status;
 
     private Sekolah sekolah;
@@ -28,13 +31,15 @@ public class UserDetailsImpl implements UserDetails {
 
 
 
-    public UserDetailsImpl(Long id, String email, String password, String role, Sekolah sekolah ,String status) {
+    public UserDetailsImpl(Long id, String email, String password, String role, Sekolah sekolah , String status , String namaSekolah) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
         this.sekolah = sekolah;
         this.status = status;
+        this.namaSekolah = namaSekolah;
+
 
     }
 
@@ -45,7 +50,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getPassword(),
                 user.getRole(),
                 user.getSekolah(),
-                user.getStatus()
+                user.getStatus(),
+                user.getNamaSekolah()
                 );
     }
 
@@ -87,6 +93,16 @@ public class UserDetailsImpl implements UserDetails {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getNamaSekolah() {
+        return namaSekolah;
+    }
+
+    public void setNamaSekolah(String namaSekolah) {
+        this.namaSekolah = namaSekolah;
+    }
+
+
 
     @Override
     public boolean isAccountNonExpired() {

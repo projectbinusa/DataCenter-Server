@@ -1,6 +1,7 @@
 package com.datacenter.datacenter.controller;
 
 import com.datacenter.datacenter.exception.ResourceNotFoundException;
+import com.datacenter.datacenter.model.Sekolah;
 import com.datacenter.datacenter.model.User;
 import com.datacenter.datacenter.payload.request.LoginRequest;
 import com.datacenter.datacenter.payload.response.JwtResponse;
@@ -25,7 +26,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
-public class AuthController {
+public class AuthController<UserRequestBody> {
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -136,6 +137,7 @@ public class AuthController {
     }
 
 
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
 
@@ -160,7 +162,7 @@ public class AuthController {
             }
         }
         user.setPassword(encoder.encode(user.getPassword()));
-
+        user.setNamaSekolah(user.getNamaSekolah());
         User users = userRepository.save(user);
         return ResponseEntity.ok(users);
     }
