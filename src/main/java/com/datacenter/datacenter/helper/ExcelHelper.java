@@ -55,15 +55,15 @@ public class ExcelHelper {
 
                 row.createCell(0).setCellValue(siswa.getId());
                 row.createCell(1).setCellValue(siswa.getNamaMurid());
-                row.createCell(1).setCellValue(siswa.getExtrakulikuler());
-                row.createCell(2).setCellValue(siswa.getTanggalLahir());
-                row.createCell(3).setCellValue(siswa.getTempatLahir());
-                row.createCell(4).setCellValue(siswa.getUmur());
-                row.createCell(5).setCellValue(siswa.getAgama());
-                row.createCell(6).setCellValue(siswa.getGender());
-                row.createCell(7).setCellValue(siswa.getKelas());
-                row.createCell(8).setCellValue(siswa.getNamaOrtu());
-                row.createCell(9).setCellValue(siswa.getNoTeleponOrtu());
+                row.createCell(2).setCellValue(siswa.getExtrakulikuler());
+                row.createCell(3).setCellValue(siswa.getTanggalLahir());
+                row.createCell(4).setCellValue(siswa.getTempatLahir());
+                row.createCell(5).setCellValue(siswa.getUmur());
+                row.createCell(6).setCellValue(siswa.getAgama());
+                row.createCell(7).setCellValue(siswa.getGender());
+                row.createCell(8).setCellValue(siswa.getKelas());
+                row.createCell(9).setCellValue(siswa.getNamaOrtu());
+                row.createCell(10).setCellValue(siswa.getNoTeleponOrtu());
             }
 
             workbook.write(out);
